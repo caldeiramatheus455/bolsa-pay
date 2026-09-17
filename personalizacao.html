@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bolsa Play — Personalizar Investidor</title>
+<meta name="description" content="Tela de customização de personagem do Bolsa Play: skins, roupas, acessórios e cenários temáticos de mercado financeiro, desbloqueáveis por progressão.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230A0E14'/%3E%3Cpath d='M30 25 L75 50 L30 75 Z' fill='none' stroke='%2300C853' stroke-width='7' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0A0E14;
+    --surface: #121826;
+    --surface-2: #171f30;
+    --surface-3: #1c2436;
+    --border: #232c40;
+    --green: #00C853;
+    --green-bright: #2FFF8A;
+    --green-dim: rgba(0,200,83,0.14);
+    --amber: #FFB020;
+    --text: #F2F5F9;
+    --text-dim: #9AA6BA;
+    --text-faint: #626E85;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background: #05070c;
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    display:flex;
+    justify-content:center;
+    padding: 32px 16px;
+    min-height:100vh;
+  }
+  h1,h2,h3,h4,.display{ font-family:'Space Grotesk','Inter',sans-serif; font-weight:700; letter-spacing:-0.01em; }
+  button{ font-family:inherit; }
+
+  .phone{
+    width: 100%;
+    max-width: 428px;
+    background: linear-gradient(180deg, #0c111c, var(--bg) 30%);
+    border-radius: 34px;
+    border: 1px solid var(--border);
+    box-shadow: 0 40px 100px -30px rgba(0,0,0,0.85), inset 0 0 0 1px rgba(255,255,255,0.02);
+    overflow: hidden;
+    display:flex;
+    flex-direction:column;
+    min-height: 860px;
+  }
+
+  /* HEADER */
+  .app-header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 20px 20px 4px;
+  }
+  .back-btn{
+    width:36px; height:36px; border-radius:11px;
+    background: var(--surface); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    color: var(--text-dim); font-size:1.1rem;
+  }
+  .app-header h1{ font-size:1.05rem; }
+  .header-spacer{ width:36px; }
+
+  /* PROGRESS */
+  .progress-row{
+    margin: 14px 20px 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 16px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .progress-row .pr-icon{
+    width:32px; height:32px; border-radius:9px;
+    background: var(--green-dim);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1rem; flex:none;
+  }
+  .progress-row .pr-body{ flex:1; min-width:0; }
+  .progress-row .pr-label{
+    display:flex; justify-content:space-between; font-size:0.78rem; font-weight:700; margin-bottom:6px;
+  }
+  .progress-row .pr-label span:last-child{ color: var(--green-bright); }
+  .progress-track{ height:7px; border-radius:999px; background: var(--surface-2); overflow:hidden; }
+  .progress-fill{ height:100%; width:30%; border-radius:999px; background: linear-gradient(90deg, var(--green), var(--green-bright)); }
+
+  /* PREVIEW STAGE */
+  .preview-stage{
+    position:relative;
+    margin: 16px 20px 0;
+    height: 320px;
+    border-radius: 22px;
+    overflow:hidden;
+    background:
+      radial-gradient(120% 90% at 50% 8%, rgba(0,200,83,0.16), transparent 60%),
+      linear-gradient(180deg, #141b28 0%, #0b0f18 100%);
+    border: 1px solid var(--border);
+  }
+  .scene-clutter{ position:absolute; inset:0; opacity:0.6; }
+  .rotate-btn{
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:34px; height:34px; border-radius:50%;
+    background: rgba(10,14,20,0.65);
+    border:1px solid var(--border);
+    color: var(--text-dim);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1rem; z-index:3;
+    backdrop-filter: blur(4px);
+  }
+  .rotate-left{ left:10px; }
+  .rotate-right{ right:10px; }
+  .avatar-360{
+    position:absolute; top:12px; right:12px; z-index:3;
+    background: rgba(10,14,20,0.65);
+    border:1px solid var(--border);
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size:0.68rem; font-weight:700; color: var(--text-dim);
+    display:flex; align-items:center; gap:5px;
+  }
+  .avatar-stage-svg{
+    position:relative; z-index:2;
+    width: 62%;
+    margin: 20px auto 0;
+    display:block;
+    filter: drop-shadow(0 18px 30px rgba(0,0,0,0.5));
+  }
+  .stage-tag{
+    position:absolute; left:14px; right:14px; bottom:14px; z-index:3;
+    background: rgba(5,8,14,0.72);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 14px;
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .stage-tag .st-name{ font-family:'Space Grotesk'; font-weight:700; font-size:0.85rem; color: var(--green-bright); }
+  .stage-tag .st-outfit{ font-size:0.7rem; color: var(--text-dim); text-align:right; }
+
+  /* TABS */
+  .tabs-row{
+    display:flex; gap:8px;
+    margin: 18px 20px 0;
+    overflow-x:auto;
+    scrollbar-width:none;
+    padding-bottom: 4px;
+  }
+  .tabs-row::-webkit-scrollbar{ display:none; }
+  .tab-btn{
+    flex: none;
+    display:flex; align-items:center; gap:6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size:0.8rem; font-weight:700;
+    padding: 10px 14px;
+    border-radius: 12px;
+    white-space:nowrap;
+  }
+  .tab-btn.active{
+    background: var(--green-dim);
+    border-color: rgba(0,200,83,0.5);
+    color: var(--green-bright);
+  }
+
+  /* ITEMS PANEL */
+  .items-panel{
+    flex:1;
+    margin: 16px 20px 0;
+    padding-bottom: 16px;
+  }
+  .items-panel-header{
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin-bottom:12px;
+  }
+  .items-panel-header h3{ font-size:1rem; }
+  .items-panel-header span{ font-size:0.75rem; color: var(--text-faint); font-weight:600; }
+
+  .items-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .cust-item{
+    position:relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 12px 8px 10px;
+    text-align:center;
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+  }
+  .cust-item .ci-thumb{
+    width:44px; height:44px; border-radius:12px;
+    background: var(--surface-2);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.35rem;
+  }
+  .cust-item .ci-name{ font-size:0.72rem; font-weight:700; line-height:1.2; }
+  .cust-item .ci-sub{ font-size:0.6rem; color: var(--text-faint); line-height:1.2; min-height: 1.4em; }
+
+  .cust-item.equipped{ border-color: var(--green); box-shadow: 0 0 0 1px var(--green), 0 0 18px -6px rgba(0,200,83,0.6); }
+  .cust-item.equipped .ci-thumb{ background: var(--green-dim); }
+  .cust-item .equipped-badge{
+    position:absolute; top:-7px; right:-7px;
+    width:20px; height:20px; border-radius:50%;
+    background: var(--green); color:#04140a;
+    font-size:0.65rem; font-weight:900;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 0 0 3px var(--bg);
+  }
+
+  .cust-item.locked .ci-thumb{ filter: grayscale(1); opacity:0.35; }
+  .cust-item.locked .ci-name{ color: var(--text-faint); }
+  .cust-item.locked{ background: var(--surface); }
+  .lock-overlay{
+    position:absolute; top:8px; right:8px;
+    width:22px; height:22px; border-radius:50%;
+    background: rgba(5,8,14,0.85);
+    border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.7rem; color: var(--text-dim);
+  }
+  .unlock-hint{
+    font-size:0.58rem; font-weight:700; text-transform:uppercase; letter-spacing:0.03em;
+    color: var(--amber);
+    background: rgba(255,176,32,0.12);
+    border-radius: 6px;
+    padding: 2px 6px;
+    margin-top:2px;
+  }
+
+  /* FOOTER CTA */
+  .footer-cta{
+    padding: 14px 20px 22px;
+    background: linear-gradient(180deg, transparent, rgba(5,8,14,0.9) 30%);
+  }
+  .save-btn{
+    width:100%;
+    background: linear-gradient(180deg, var(--green-bright), var(--green));
+    color:#04140a;
+    font-weight:800;
+    font-size:1rem;
+    padding: 16px;
+    border:none;
+    border-radius: 16px;
+    box-shadow: 0 14px 34px -10px rgba(0,200,83,0.75);
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+
+  ::selection{ background: var(--green); color:#04140a; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <div class="app-header">
+    <div class="back-btn">←</div>
+    <h1>Personalize seu Investidor</h1>
+    <div class="header-spacer"></div>
+  </div>
+
+  <div class="progress-row">
+    <div class="pr-icon">🏆</div>
+    <div class="pr-body">
+      <div class="pr-label"><span>Itens desbloqueados</span><span>12/40</span></div>
+      <div class="progress-track"><div class="progress-fill" style="width:30%"></div></div>
+    </div>
+  </div>
+
+  <div class="preview-stage">
+    <div class="avatar-360">🔄 360°</div>
+    <div class="rotate-btn rotate-left">‹</div>
+    <div class="rotate-btn rotate-right">›</div>
+
+    <svg class="scene-clutter" viewBox="0 0 300 300" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="230" width="46" height="14" rx="4" fill="#232c40" opacity="0.7"/>
+      <rect x="14" y="218" width="34" height="12" rx="3" fill="#1c2436" opacity="0.6"/>
+      <circle cx="264" cy="238" r="16" fill="#232c40" opacity="0.55"/>
+      <path d="M250 240 C254 232 274 232 278 240" stroke="#2f3a52" stroke-width="4" fill="none" opacity="0.5"/>
+      <rect x="230" y="60" width="40" height="52" rx="4" fill="#161c2a" opacity="0.5" stroke="#232c40"/>
+    </svg>
+
+    <svg class="avatar-stage-svg" viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+      <path d="M70 320 L74 230 C76 195 95 178 140 178 C185 178 204 195 206 230 L210 320 Z" fill="#3d4a63"/>
+      <path d="M108 182 C108 165 122 158 140 158 C158 158 172 165 172 182 C172 195 158 190 140 190 C122 190 108 195 108 182 Z" fill="#333e54"/>
+      <line x1="130" y1="192" x2="127" y2="222" stroke="#00C853" stroke-width="3" stroke-linecap="round"/>
+      <line x1="150" y1="192" x2="153" y2="222" stroke="#00C853" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="127" cy="224" r="3" fill="#00C853"/>
+      <circle cx="153" cy="224" r="3" fill="#00C853"/>
+      <path d="M108 255 C120 248 160 248 172 255 L172 268 C160 262 120 262 108 268 Z" fill="#333e54"/>
+      <path d="M74 235 C58 245 50 268 54 292 C56 300 68 302 72 294 C76 278 78 258 84 240 Z" fill="#3d4a63"/>
+      <path d="M206 235 C222 245 230 268 226 292 C224 300 212 302 208 294 C204 278 202 258 196 240 Z" fill="#3d4a63"/>
+      <circle cx="61" cy="296" r="12" fill="#e8b48f"/>
+      <circle cx="219" cy="296" r="12" fill="#e8b48f"/>
+      <rect x="122" y="150" width="36" height="30" rx="10" fill="#e8b48f"/>
+      <circle cx="140" cy="98" r="74" fill="#e8b48f"/>
+      <circle cx="66" cy="100" r="12" fill="#e8b48f"/>
+      <circle cx="214" cy="100" r="12" fill="#e8b48f"/>
+      <path d="M100 90 L124 82" stroke="#2b2118" stroke-width="5" stroke-linecap="round"/>
+      <path d="M180 90 L156 82" stroke="#2b2118" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="115" cy="104" rx="10" ry="12" fill="#1b1f2a"/>
+      <ellipse cx="165" cy="104" rx="10" ry="12" fill="#1b1f2a"/>
+      <circle cx="118" cy="100" r="3" fill="#fff"/>
+      <circle cx="168" cy="100" r="3" fill="#fff"/>
+      <ellipse cx="115" cy="120" rx="12" ry="5" fill="#8a6a6a" opacity="0.3"/>
+      <ellipse cx="165" cy="120" rx="12" ry="5" fill="#8a6a6a" opacity="0.3"/>
+      <path d="M122 138 Q140 134 158 138" fill="none" stroke="#7a4a3a" stroke-width="4" stroke-linecap="round"/>
+      <path d="M62 90 C56 40 90 14 140 14 C190 14 224 40 218 90 C214 66 198 76 190 58 C178 74 160 50 150 62 C138 46 118 66 108 52 C96 70 78 58 70 76 C66 82 64 86 62 90 Z" fill="#2b2118"/>
+      <path d="M58 96 C50 84 52 66 64 58 C58 72 60 86 66 96 Z" fill="#2b2118"/>
+      <path d="M222 96 C230 84 228 66 216 58 C222 72 220 86 214 96 Z" fill="#2b2118"/>
+    </svg>
+
+    <div class="stage-tag">
+      <span class="st-name">VOCÊ</span>
+      <span class="st-outfit">Moletom Estagiário</span>
+    </div>
+  </div>
+
+  <div class="tabs-row">
+    <div class="tab-btn">🙂 Rosto</div>
+    <div class="tab-btn">💇 Cabelo</div>
+    <div class="tab-btn active">👕 Roupas</div>
+    <div class="tab-btn">🎒 Acessórios</div>
+    <div class="tab-btn">🏙️ Cenário</div>
+  </div>
+
+  <div class="items-panel">
+    <div class="items-panel-header">
+      <h3>Trajes</h3>
+      <span>Nível sobe, guarda-roupa melhora</span>
+    </div>
+    <div class="items-grid">
+
+      <div class="cust-item equipped">
+        <div class="equipped-badge">✓</div>
+        <div class="ci-thumb">👕</div>
+        <div class="ci-name">Moletom Estagiário</div>
+        <div class="ci-sub">Aquele look de call às 8h</div>
+      </div>
+
+      <div class="cust-item">
+        <div class="ci-thumb">👔</div>
+        <div class="ci-name">Camisa Amassada</div>
+        <div class="ci-sub">Já é um progresso</div>
+      </div>
+
+      <div class="cust-item locked">
+        <div class="lock-overlay">🔒</div>
+        <div class="ci-thumb">🧥</div>
+        <div class="ci-name">Blazer Casual</div>
+        <div class="unlock-hint">Nv. 12</div>
+      </div>
+
+      <div class="cust-item locked">
+        <div class="lock-overlay">🔒</div>
+        <div class="ci-thumb">🕴️</div>
+        <div class="ci-name">Terno Cinza</div>
+        <div class="unlock-hint">Nv. 22</div>
+      </div>
+
+      <div class="cust-item locked">
+        <div class="lock-overlay">🔒</div>
+        <div class="ci-thumb">🤵</div>
+        <div class="ci-name">Traje Gestor de Fundo</div>
+        <div class="unlock-hint">Conquista</div>
+      </div>
+
+      <div class="cust-item locked">
+        <div class="lock-overlay">🔒</div>
+        <div class="ci-thumb">✨</div>
+        <div class="ci-name">Blazer Edição Rara</div>
+        <div class="unlock-hint">Evento</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer-cta">
+    <button class="save-btn">✓ Salvar Visual</button>
+  </div>
+
+</div>
+</body>
+</html>
