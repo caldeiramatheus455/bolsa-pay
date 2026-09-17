@@ -220,166 +220,50 @@
     margin-bottom: 48px;
   }
 
-  /* NARRATIVE */
-  .arc-track{
-    position: relative;
-    display:grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-  }
-  @media (max-width: 860px){ .arc-track{ grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 520px){ .arc-track{ grid-template-columns: 1fr; } }
-  .arc-line{
-    position:absolute; top:34px; left:5%; right:5%; height:2px;
-    background: repeating-linear-gradient(90deg, var(--border) 0 10px, transparent 10px 16px);
-    z-index:0;
-  }
-  @media (max-width: 860px){ .arc-line{ display:none; } }
-  .arc-card{
-    position:relative; z-index:1;
-    background: var(--surface);
-    border:1px solid var(--border);
+  /* COMMUNITY */
+  .community-card{
+    background: linear-gradient(135deg, rgba(0,200,83,0.1), transparent 60%), var(--surface);
+    border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 26px 20px;
-    transition: border-color .2s ease, transform .2s ease;
-  }
-  .arc-card:hover{ border-color: rgba(0,200,83,0.5); transform: translateY(-4px); }
-  .arc-num{
-    width:44px; height:44px; border-radius:12px;
-    background: var(--surface-2);
-    border:1px solid var(--border);
-    display:flex; align-items:center; justify-content:center;
-    font-family:'Space Grotesk'; font-weight:700; font-size:1.2rem;
-    color: var(--green-bright);
-    margin-bottom:16px;
-  }
-  .arc-card h3{ font-size:1.08rem; margin-bottom:8px; }
-  .arc-card p{ color: var(--text-dim); font-size:0.92rem; }
-  .arc-card .tag{
-    display:inline-block; margin-top:12px;
-    font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;
-    color: var(--text-faint);
-  }
-
-  .origin-box{
-    background: linear-gradient(135deg, rgba(0,200,83,0.08), transparent 60%), var(--surface);
-    border:1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 30px 28px;
-    display:flex; gap:20px; align-items:flex-start;
-  }
-  @media (max-width:640px){ .origin-box{ flex-direction:column; } }
-  .origin-box .emoji{ font-size:2.2rem; line-height:1; }
-  .origin-box h4{ font-family:'Space Grotesk'; font-size:1.1rem; margin-bottom:8px; }
-  .origin-box p{ color: var(--text-dim); }
-
-  /* CHARACTER REVEAL (poster / key-art style) */
-  .character-reveal{
-    display:grid;
-    grid-template-columns: 0.85fr 1.15fr;
-    gap: 40px;
+    padding: 44px 36px;
+    display:flex;
     align-items:center;
-    margin-bottom: 40px;
+    gap: 32px;
+    flex-wrap: wrap;
   }
-  @media (max-width: 860px){
-    .character-reveal{ grid-template-columns: 1fr; }
+  @media (max-width: 700px){
+    .community-card{ flex-direction:column; text-align:center; padding: 36px 24px; }
   }
-  .character-poster{
-    position:relative;
-    max-width: 340px;
-    margin: 0 auto;
-    aspect-ratio: 400 / 560;
-    border-radius: 26px;
-    overflow: hidden;
-    background: linear-gradient(180deg, #0d1524 0%, #05070c 75%);
-    border: 1px solid var(--border);
-    box-shadow: 0 30px 70px -24px rgba(0,0,0,0.75), inset 0 0 0 1px rgba(255,255,255,0.02);
+  .community-icon{
+    flex:none;
+    width:84px; height:84px;
+    border-radius: 22px;
+    background: rgba(37,211,102,0.12);
+    border: 1px solid rgba(37,211,102,0.4);
+    display:flex; align-items:center; justify-content:center;
+    font-size: 2.4rem;
   }
-  .poster-glow{
-    position:absolute; top:-14%; left:50%; transform: translateX(-50%);
-    width: 78%; aspect-ratio: 1;
-    background: radial-gradient(circle, rgba(0,200,83,0.38), transparent 68%);
-    filter: blur(18px);
-    z-index:0;
+  .community-body{ flex:1; min-width:240px; }
+  .community-body h3{ font-size:1.4rem; margin-bottom:10px; }
+  .community-body p{ color: var(--text-dim); font-size:1rem; max-width:520px; }
+  .community-meta{
+    display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;
   }
-  .poster-svg{ position:relative; z-index:1; width:100%; height:100%; display:block; }
-  .poster-svg .skyline rect.bldg{ fill:#0d1524; }
-  .poster-svg .skyline rect.win{ fill:#00C853; opacity:0.55; }
-  .poster-svg .figure{
-    filter:
-      drop-shadow(-9px 0 16px rgba(0,200,83,0.6))
-      drop-shadow(6px 3px 10px rgba(0,0,0,0.7));
+  @media (max-width:700px){ .community-meta{ justify-content:center; } }
+  .community-meta .pill{ font-size:0.72rem; padding:6px 12px; }
+  .btn-whatsapp{
+    flex:none;
+    display:inline-flex; align-items:center; gap:10px;
+    background: linear-gradient(180deg, #2BE271, #1DA851);
+    color: #04140a;
+    font-weight: 800;
+    font-size: 0.98rem;
+    padding: 15px 26px;
+    border-radius: 14px;
+    box-shadow: 0 14px 32px -10px rgba(37,211,102,0.7);
+    white-space:nowrap;
   }
-  .poster-svg .figure .hair,
-  .poster-svg .figure .head,
-  .poster-svg .figure .neck,
-  .poster-svg .figure .torso,
-  .poster-svg .figure .arm-back{ fill:#060b13; }
-  .poster-svg .figure .arm-front{ fill:#0a1119; }
-  .poster-tag{
-    position:absolute; left:14px; right:14px; bottom:14px; z-index:2;
-    background: rgba(5,8,14,0.72);
-    backdrop-filter: blur(6px);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 10px 14px;
-    display:flex; align-items:center; justify-content:space-between; gap:10px;
-  }
-  .poster-tag .ptag-name{
-    font-family: 'Space Grotesk'; font-weight:700; font-size:0.9rem;
-    color: var(--green-bright); letter-spacing:0.04em;
-  }
-  .poster-tag .ptag-class{ font-size:0.7rem; color: var(--text-dim); text-align:right; }
-  .poster-lvl{
-    position:absolute; top:14px; left:14px; z-index:2;
-    background: rgba(5,8,14,0.72);
-    border:1px solid var(--border);
-    border-radius: 999px;
-    padding: 5px 12px;
-    font-size:0.7rem; font-weight:700; color: var(--amber);
-  }
-
-  /* EVOLUTION STORYTELLING */
-  .evo-grid{
-    display:grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 22px;
-  }
-  @media (max-width: 980px){ .evo-grid{ grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 560px){ .evo-grid{ grid-template-columns: 1fr; } }
-
-  .evo-card{
-    position:relative;
-    aspect-ratio: 320 / 400;
-    border-radius: 20px;
-    overflow:hidden;
-    border: 1px solid var(--border);
-    box-shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
-  }
-  .evo-card svg{ position:relative; z-index:1; width:100%; height:100%; display:block; }
-  .evo-caption{ margin-top:16px; }
-  .evo-caption .evo-step{
-    font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;
-    color: var(--text-faint); margin-bottom:6px; display:block;
-  }
-  .evo-caption h4{ font-size:1rem; margin-bottom:6px; }
-  .evo-caption p{ font-size:0.85rem; color: var(--text-dim); }
-
-  .evo-card.evo-1{ background: linear-gradient(180deg,#111826,#05070c 85%); }
-  .evo-card.evo-1 .torso, .evo-card.evo-1 .neck, .evo-card.evo-1 .head, .evo-card.evo-1 .limb, .evo-card.evo-1 .foot{ fill:#242f45; }
-  .evo-card.evo-1 .figure{ filter: drop-shadow(-6px 0 14px rgba(120,140,190,0.45)) drop-shadow(4px 3px 8px rgba(0,0,0,0.6)); }
-
-  .evo-card.evo-2{ background: linear-gradient(180deg,#0d1420,#05070c 85%); }
-  .evo-card.evo-2 .torso, .evo-card.evo-2 .neck, .evo-card.evo-2 .head, .evo-card.evo-2 .limb, .evo-card.evo-2 .foot{ fill:#1c2942; }
-  .evo-card.evo-2 .figure{ filter: drop-shadow(-7px 0 16px rgba(0,200,83,0.4)) drop-shadow(4px 3px 8px rgba(0,0,0,0.6)); }
-
-  .evo-card.evo-3{ background: linear-gradient(180deg,#0d1a16,#05070c 85%); }
-  .evo-card.evo-3 .torso, .evo-card.evo-3 .neck, .evo-card.evo-3 .head, .evo-card.evo-3 .limb, .evo-card.evo-3 .foot{ fill:#152234; }
-  .evo-card.evo-3 .figure{ filter: drop-shadow(-9px 0 20px rgba(0,200,83,0.55)) drop-shadow(4px 3px 8px rgba(0,0,0,0.65)); }
-
-  .evo-card.evo-4{ background: linear-gradient(180deg,#101a14,#05070c 85%); }
-  .evo-card.evo-4 .torso, .evo-card.evo-4 .neck, .evo-card.evo-4 .head, .evo-card.evo-4 .limb, .evo-card.evo-4 .foot{ fill:#182417; }
-  .evo-card.evo-4 .figure{ filter: drop-shadow(-10px -2px 22px rgba(255,200,80,0.55)) drop-shadow(8px 4px 16px rgba(0,200,83,0.5)); }
+  .btn-whatsapp:hover{ filter: brightness(1.05); }
 
   /* GAMEPLAY */
   .loop-grid{
@@ -657,351 +541,24 @@
   </div>
 </section>
 
-<!-- NARRATIVA -->
-<section id="narrativa">
+<!-- COMUNIDADE -->
+<section id="comunidade">
   <div class="wrap">
-    <span class="eyebrow">O gancho</span>
-    <h2 class="section-title">Todo lendário começou zerado</h2>
-    <p class="section-desc">Seu personagem não nasce sabendo. Ele nasce quebrado — e é sua missão levantar essa build do zero até virar o cara (ou a cara) que todo mundo pede dica.</p>
+    <span class="eyebrow">Comunidade</span>
+    <h2 class="section-title">Cola no grupo antes de todo mundo</h2>
+    <p class="section-desc">Bastidor do desenvolvimento, prints em primeira mão, papo direto com quem tá construindo o jogo — e sim, também rola fila pra testar antes de todo mundo.</p>
 
-    <div class="character-reveal">
-      <div class="character-poster">
-        <div class="poster-glow"></div>
-        <span class="poster-lvl">Nv. 1</span>
-        <svg class="poster-svg" viewBox="0 0 400 560" xmlns="http://www.w3.org/2000/svg">
-          <g class="skyline">
-            <rect class="bldg" x="-10" y="380" width="70" height="190" />
-            <rect class="win" x="4" y="400" width="6" height="10" />
-            <rect class="win" x="20" y="418" width="6" height="10" />
-            <rect class="win" x="4" y="440" width="6" height="10" />
-            <rect class="bldg" x="55" y="320" width="55" height="250" />
-            <rect class="win" x="68" y="345" width="6" height="10" />
-            <rect class="win" x="88" y="368" width="6" height="10" />
-            <rect class="win" x="68" y="392" width="6" height="10" />
-            <rect class="win" x="88" y="416" width="6" height="10" />
-            <rect class="bldg" x="335" y="300" width="65" height="270" />
-            <rect class="win" x="350" y="330" width="6" height="10" />
-            <rect class="win" x="372" y="352" width="6" height="10" />
-            <rect class="win" x="350" y="376" width="6" height="10" />
-            <rect class="bldg" x="300" y="380" width="45" height="190" />
-            <rect class="win" x="312" y="405" width="6" height="10" />
-            <rect class="win" x="326" y="428" width="6" height="10" />
-          </g>
-          <g class="figure">
-            <path class="hair" d="M152 85 C150 40 170 20 200 20 C230 20 250 40 248 85 C240 65 160 65 152 85 Z" />
-            <ellipse class="head" cx="200" cy="100" rx="46" ry="54" />
-            <rect class="neck" x="182" y="145" width="36" height="33" />
-            <path class="torso" d="M90 560 L95 430 C98 360 100 300 112 205 C132 182 160 178 182 178 L218 178 C240 178 268 182 288 205 C300 300 302 360 305 430 L310 560 Z" />
-            <path class="arm-back" d="M108 342 L292 380 L282 402 L98 364 Z" />
-            <path class="arm-front" d="M292 336 L108 376 L118 398 L302 358 Z" />
-          </g>
-        </svg>
-        <div class="poster-tag">
-          <span class="ptag-name">VOCÊ</span>
-          <span class="ptag-class">Classe: Iniciante Ingênuo</span>
+    <div class="community-card">
+      <div class="community-icon">💬</div>
+      <div class="community-body">
+        <h3>Grupo oficial do Bolsa Play no WhatsApp</h3>
+        <p>Entra, dá um oi e acompanha de perto o desenvolvimento do jogo. Sem spam, sem grupo lotado de corrente — só quem tá afim de jogar primeiro.</p>
+        <div class="community-meta">
+          <span class="pill"><span class="dot"></span> Grupo ativo</span>
+          <span class="pill">Vagas limitadas</span>
         </div>
       </div>
-
-      <div class="origin-box">
-        <div class="emoji">🎮</div>
-        <div>
-          <h4>Escolha sua origem</h4>
-          <p>Perdeu uma grana feia apostando no jogo do Brasileirão. Foi mandado embora e caiu o FGTS na conta. Ganhou uma herança e trava toda vez que abre o extrato. Todo personagem começa com um trauma financeiro — e uma decisão pela frente: continuar perdido ou virar o jogo.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="arc-track" style="margin-top:48px;">
-      <div class="arc-line"></div>
-      <div class="arc-card">
-        <div class="arc-num">01</div>
-        <h3>Iniciante Ingênuo</h3>
-        <p>Não sabe a diferença entre CDB e boato de grupo de WhatsApp. Toma perrengue, aprende na marra, sobrevive.</p>
-        <span class="tag">Arco 1</span>
-      </div>
-      <div class="arc-card">
-        <div class="arc-num">02</div>
-        <h3>Investidor Amador</h3>
-        <p>Já entende o tabuleiro, mas ainda erra feio quando bate o pânico. Primeira grana de verdade, primeiro ego inflado.</p>
-        <span class="tag">Arco 2</span>
-      </div>
-      <div class="arc-card">
-        <div class="arc-num">03</div>
-        <h3>Trader Avançado</h3>
-        <p>Já lê o mercado como quem lê o mapa da fase. Assume risco calculado e começa a bater de frente com o Rival.</p>
-        <span class="tag">Arco 3</span>
-      </div>
-      <div class="arc-card">
-        <div class="arc-num">04</div>
-        <h3>Gestor de Fundo</h3>
-        <p>Chegou no fim de game: gerencia patrimônio de verdade, tem reputação e vira o mentor de quem tá começando.</p>
-        <span class="tag">Arco 4 · Final boss você</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EVOLUÇÃO DO PERSONAGEM -->
-<section id="evolucao" style="background: var(--bg-alt);">
-  <div class="wrap">
-    <span class="eyebrow">A jornada visual</span>
-    <h2 class="section-title">Do fundo do poço até virar referência</h2>
-    <p class="section-desc">Mesmo personagem, mesma run. Repara como a luz muda — de apagada e fria pra verde neon e, no fim, dourada. É a sua evolução acontecendo na tela.</p>
-
-    <div class="evo-grid">
-      <div>
-        <div class="evo-card evo-1">
-          <svg viewBox="0 0 320 400" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="160" cy="365" rx="55" ry="10" fill="#000" opacity="0.4"/>
-            <g opacity="0.55">
-              <polyline points="205,55 232,72 224,90" fill="none" stroke="#7a5658" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-              <polyline points="246,104 268,122 292,148" fill="none" stroke="#7a5658" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </g>
-            <g transform="translate(66,304)" opacity="0.6">
-              <circle cx="0" cy="0" r="19" fill="#3a3628"/>
-              <path d="M -14 -4 L -2 6 L 6 -8 L 16 5" fill="none" stroke="#05070c" stroke-width="2.4"/>
-              <circle cx="34" cy="14" r="6" fill="#3a3628"/>
-            </g>
-            <g class="figure" transform="translate(160,250)">
-              <g transform="rotate(0)">
-                <rect x="-24" y="-96" width="48" height="98" rx="22" class="torso"/>
-                <g transform="translate(0,-100) rotate(16)">
-                  <rect x="-8" y="-6" width="16" height="18" class="neck"/>
-                  <circle cx="0" cy="-30" r="24" class="head"/>
-                </g>
-                <g transform="translate(-20,-88) rotate(14)">
-                  <rect x="-7" y="0" width="14" height="48" rx="7" class="limb"/>
-                  <g transform="translate(0,48) rotate(20)">
-                    <rect x="-6" y="0" width="12" height="44" rx="6" class="limb"/>
-                  </g>
-                </g>
-                <g transform="translate(20,-88) rotate(-14)">
-                  <rect x="-7" y="0" width="14" height="48" rx="7" class="limb"/>
-                  <g transform="translate(0,48) rotate(-20)">
-                    <rect x="-6" y="0" width="12" height="44" rx="6" class="limb"/>
-                  </g>
-                </g>
-              </g>
-              <g transform="translate(-14,0) rotate(0)">
-                <rect x="-9" y="0" width="18" height="56" rx="9" class="limb"/>
-                <g transform="translate(0,56) rotate(0)">
-                  <rect x="-8" y="0" width="16" height="52" rx="8" class="limb"/>
-                  <ellipse cx="0" cy="56" rx="12" ry="7" class="foot"/>
-                </g>
-              </g>
-              <g transform="translate(14,0) rotate(0)">
-                <rect x="-9" y="0" width="18" height="56" rx="9" class="limb"/>
-                <g transform="translate(0,56) rotate(0)">
-                  <rect x="-8" y="0" width="16" height="52" rx="8" class="limb"/>
-                  <ellipse cx="0" cy="56" rx="12" ry="7" class="foot"/>
-                </g>
-              </g>
-            </g>
-          </svg>
-        </div>
-        <div class="evo-caption">
-          <span class="evo-step">Cena 1</span>
-          <h4>O fundo do poço</h4>
-          <p>Perdido, cabisbaixo, com o dinheiro escorrendo pelos dedos. Todo mundo começa assim.</p>
-        </div>
-      </div>
-
-      <div>
-        <div class="evo-card evo-2">
-          <svg viewBox="0 0 320 400" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="160" cy="365" rx="55" ry="10" fill="#000" opacity="0.4"/>
-            <g opacity="0.85" transform="translate(210,90)">
-              <polyline points="0,60 24,40 46,52 70,20 94,30" fill="none" stroke="#3a4560" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-              <polyline points="70,20 94,30" fill="none" stroke="#00C853" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="94" cy="30" r="4.5" fill="#00C853"/>
-            </g>
-            <g transform="translate(76,300)" opacity="0.85">
-              <ellipse cx="0" cy="6" rx="24" ry="16" fill="#1c2942"/>
-              <circle cx="-22" cy="8" r="8" fill="#1c2942"/>
-              <path d="M 10 -14 L 22 -20 L 16 -6 Z" fill="#1c2942"/>
-              <rect x="-6" y="-11" width="14" height="3" rx="1.5" fill="#00C853" opacity="0.8"/>
-              <circle cx="1" cy="-20" r="3" fill="#00C853" opacity="0.7"/>
-            </g>
-            <g class="figure" transform="translate(150,250)">
-              <g transform="rotate(0)">
-                <rect x="-24" y="-96" width="48" height="98" rx="22" class="torso"/>
-                <g transform="translate(0,-100) rotate(6)">
-                  <rect x="-8" y="-6" width="16" height="18" class="neck"/>
-                  <circle cx="0" cy="-30" r="24" class="head"/>
-                </g>
-                <g transform="translate(-20,-88) rotate(10)">
-                  <rect x="-7" y="0" width="14" height="48" rx="7" class="limb"/>
-                  <g transform="translate(0,48) rotate(8)">
-                    <rect x="-6" y="0" width="12" height="44" rx="6" class="limb"/>
-                  </g>
-                </g>
-                <g transform="translate(20,-88) rotate(-95)">
-                  <rect x="-7" y="0" width="14" height="48" rx="7" class="limb"/>
-                  <g transform="translate(0,48) rotate(-45)">
-                    <rect x="-6" y="0" width="12" height="44" rx="6" class="limb"/>
-                  </g>
-                </g>
-              </g>
-              <g transform="translate(-14,0) rotate(0)">
-                <rect x="-9" y="0" width="18" height="56" rx="9" class="limb"/>
-                <g transform="translate(0,56) rotate(0)">
-                  <rect x="-8" y="0" width="16" height="52" rx="8" class="limb"/>
-                  <ellipse cx="0" cy="56" rx="12" ry="7" class="foot"/>
-                </g>
-              </g>
-              <g transform="translate(14,0) rotate(0)">
-                <rect x="-9" y="0" width="18" height="56" rx="9" class="limb"/>
-                <g transform="translate(0,56) rotate(0)">
-                  <rect x="-8" y="0" width="16" height="52" rx="8" class="limb"/>
-                  <ellipse cx="0" cy="56" rx="12" ry="7" class="foot"/>
-                </g>
-              </g>
-            </g>
-          </svg>
-        </div>
-        <div class="evo-caption">
-          <span class="evo-step">Cena 2</span>
-          <h4>Os primeiros passos</h4>
-          <p>Cofrinho na mão, olho no gráfico, cara de dúvida. O verde neon começa a aparecer.</p>
-        </div>
-      </div>
-
-      <div>
-        <div class="evo-card evo-3">
-          <svg viewBox="0 0 320 400" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="160" cy="365" rx="58" ry="10" fill="#000" opacity="0.4"/>
-            <g transform="translate(40,60)" opacity="0.8">
-              <rect x="0" y="30" width="10" height="26" rx="2" fill="#00C853"/>
-              <rect x="4" y="20" width="2" height="46" fill="#00C853"/>
-              <rect x="16" y="14" width="10" height="34" rx="2" fill="#4a5568"/>
-              <rect x="20" y="6" width="2" height="50" fill="#4a5568"/>
-              <rect x="32" y="0" width="10" height="40" rx="2" fill="#00C853"/>
-              <rect x="36" y="-8" width="2" height="56" fill="#00C853"/>
-            </g>
-            <g transform="translate(232,52)" opacity="0.85">
-              <path d="M0 26 L30 0" stroke="#00C853" stroke-width="4" stroke-linecap="round"/>
-              <path d="M18 0 L30 0 L30 12" fill="none" stroke="#00C853" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M4 40 L34 62" stroke="#4a5568" stroke-width="4" stroke-linecap="round"/>
-              <path d="M34 50 L34 62 L22 62" fill="none" stroke="#4a5568" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </g>
-            <g transform="translate(250,150)" opacity="0.75">
-              <circle cx="0" cy="0" r="17" fill="none" stroke="#7d8aa0" stroke-width="3.5"/>
-              <line x1="0" y1="0" x2="0" y2="-10" stroke="#7d8aa0" stroke-width="3" stroke-linecap="round"/>
-              <line x1="0" y1="0" x2="8" y2="3" stroke="#7d8aa0" stroke-width="3" stroke-linecap="round"/>
-            </g>
-            <g class="figure" transform="translate(160,250)">
-              <g transform="rotate(-3)">
-                <rect x="-24" y="-96" width="48" height="98" rx="22" class="torso"/>
-                <g transform="translate(0,-100) rotate(-2)">
-                  <rect x="-8" y="-6" width="16" height="18" class="neck"/>
-                  <circle cx="0" cy="-30" r="24" class="head"/>
-                </g>
-                <g transform="translate(-20,-88) rotate(88)">
-                  <rect x="-7" y="0" width="14" height="48" rx="7" class="limb"/>
-                  <g transform="translate(0,48) rotate(-95)">
-                    <rect x="-6" y="0" width="12" height="44" rx="6" class="limb"/>
-                  </g>
-                </g>
-                <g transform="translate(20,-88) rotate(-88)">
-                  <rect x="-7" y="0" width="14" height="48" rx="7" class="limb"/>
-                  <g transform="translate(0,48) rotate(95)">
-                    <rect x="-6" y="0" width="12" height="44" rx="6" class="limb"/>
-                  </g>
-                </g>
-              </g>
-              <g transform="translate(-14,0) rotate(-4)">
-                <rect x="-9" y="0" width="18" height="56" rx="9" class="limb"/>
-                <g transform="translate(0,56) rotate(0)">
-                  <rect x="-8" y="0" width="16" height="52" rx="8" class="limb"/>
-                  <ellipse cx="0" cy="56" rx="12" ry="7" class="foot"/>
-                </g>
-              </g>
-              <g transform="translate(14,0) rotate(4)">
-                <rect x="-9" y="0" width="18" height="56" rx="9" class="limb"/>
-                <g transform="translate(0,56) rotate(0)">
-                  <rect x="-8" y="0" width="16" height="52" rx="8" class="limb"/>
-                  <ellipse cx="0" cy="56" rx="12" ry="7" class="foot"/>
-                </g>
-              </g>
-            </g>
-          </svg>
-        </div>
-        <div class="evo-caption">
-          <span class="evo-step">Cena 3</span>
-          <h4>A virada</h4>
-          <p>Postura confiante, candles subindo, relógio correndo. Aqui o jogo fica de verdade tenso.</p>
-        </div>
-      </div>
-
-      <div>
-        <div class="evo-card evo-4">
-          <svg viewBox="0 0 320 400" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="evoMtn" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stop-color="#0f2a1c"/>
-                <stop offset="60%" stop-color="#0f7a3e"/>
-                <stop offset="100%" stop-color="#d9b34a"/>
-              </linearGradient>
-              <radialGradient id="evoSun" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#ffe9a8" stop-opacity="0.55"/>
-                <stop offset="100%" stop-color="#ffe9a8" stop-opacity="0"/>
-              </radialGradient>
-            </defs>
-            <circle cx="205" cy="115" r="130" fill="url(#evoSun)"/>
-            <g stroke="#ffe9a8" stroke-width="2" opacity="0.35">
-              <line x1="205" y1="115" x2="205" y2="30"/>
-              <line x1="205" y1="115" x2="280" y2="55"/>
-              <line x1="205" y1="115" x2="315" y2="125"/>
-              <line x1="205" y1="115" x2="130" y2="45"/>
-            </g>
-            <rect x="0" y="365" width="46" height="35" fill="url(#evoMtn)" opacity="0.9"/>
-            <rect x="52" y="335" width="46" height="65" fill="url(#evoMtn)" opacity="0.9"/>
-            <rect x="104" y="305" width="46" height="95" fill="url(#evoMtn)" opacity="0.9"/>
-            <rect x="156" y="275" width="46" height="125" fill="url(#evoMtn)" opacity="0.9"/>
-            <rect x="208" y="250" width="70" height="150" fill="url(#evoMtn)" opacity="0.95"/>
-            <g class="figure" transform="translate(243,160) scale(0.82)">
-              <g transform="rotate(0)">
-                <rect x="-24" y="-96" width="48" height="98" rx="22" class="torso"/>
-                <g transform="translate(0,-100) rotate(-6)">
-                  <rect x="-8" y="-6" width="16" height="18" class="neck"/>
-                  <circle cx="0" cy="-30" r="24" class="head"/>
-                </g>
-                <g transform="translate(-20,-88) rotate(155)">
-                  <rect x="-7" y="0" width="14" height="48" rx="7" class="limb"/>
-                  <g transform="translate(0,48) rotate(-10)">
-                    <rect x="-6" y="0" width="12" height="44" rx="6" class="limb"/>
-                  </g>
-                </g>
-                <g transform="translate(20,-88) rotate(-155)">
-                  <rect x="-7" y="0" width="14" height="48" rx="7" class="limb"/>
-                  <g transform="translate(0,48) rotate(10)">
-                    <rect x="-6" y="0" width="12" height="44" rx="6" class="limb"/>
-                  </g>
-                </g>
-              </g>
-              <g transform="translate(-14,0) rotate(-10)">
-                <rect x="-9" y="0" width="18" height="56" rx="9" class="limb"/>
-                <g transform="translate(0,56) rotate(4)">
-                  <rect x="-8" y="0" width="16" height="52" rx="8" class="limb"/>
-                  <ellipse cx="0" cy="56" rx="12" ry="7" class="foot"/>
-                </g>
-              </g>
-              <g transform="translate(14,0) rotate(10)">
-                <rect x="-9" y="0" width="18" height="56" rx="9" class="limb"/>
-                <g transform="translate(0,56) rotate(-4)">
-                  <rect x="-8" y="0" width="16" height="52" rx="8" class="limb"/>
-                  <ellipse cx="0" cy="56" rx="12" ry="7" class="foot"/>
-                </g>
-              </g>
-            </g>
-          </svg>
-        </div>
-        <div class="evo-caption">
-          <span class="evo-step">Cena 4</span>
-          <h4>O investidor que você se torna</h4>
-          <p>No topo, com a luz dourada batendo. Chegou lá — e é só o começo do próximo nível.</p>
-        </div>
-      </div>
+      <a href="#" class="btn-whatsapp" target="_blank" rel="noopener">📲 Entrar no grupo</a>
     </div>
   </div>
 </section>
