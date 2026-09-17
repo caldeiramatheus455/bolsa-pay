@@ -262,7 +262,6 @@
   }
 
   .origin-box{
-    margin-top: 40px;
     background: linear-gradient(135deg, rgba(0,200,83,0.08), transparent 60%), var(--surface);
     border:1px solid var(--border);
     border-radius: var(--radius);
@@ -273,6 +272,72 @@
   .origin-box .emoji{ font-size:2.2rem; line-height:1; }
   .origin-box h4{ font-family:'Space Grotesk'; font-size:1.1rem; margin-bottom:8px; }
   .origin-box p{ color: var(--text-dim); }
+
+  /* CHARACTER REVEAL (poster / key-art style) */
+  .character-reveal{
+    display:grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 40px;
+    align-items:center;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 860px){
+    .character-reveal{ grid-template-columns: 1fr; }
+  }
+  .character-poster{
+    position:relative;
+    max-width: 340px;
+    margin: 0 auto;
+    aspect-ratio: 400 / 560;
+    border-radius: 26px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #0d1524 0%, #05070c 75%);
+    border: 1px solid var(--border);
+    box-shadow: 0 30px 70px -24px rgba(0,0,0,0.75), inset 0 0 0 1px rgba(255,255,255,0.02);
+  }
+  .poster-glow{
+    position:absolute; top:-14%; left:50%; transform: translateX(-50%);
+    width: 78%; aspect-ratio: 1;
+    background: radial-gradient(circle, rgba(0,200,83,0.38), transparent 68%);
+    filter: blur(18px);
+    z-index:0;
+  }
+  .poster-svg{ position:relative; z-index:1; width:100%; height:100%; display:block; }
+  .poster-svg .skyline rect.bldg{ fill:#0d1524; }
+  .poster-svg .skyline rect.win{ fill:#00C853; opacity:0.55; }
+  .poster-svg .figure{
+    filter:
+      drop-shadow(-9px 0 16px rgba(0,200,83,0.6))
+      drop-shadow(6px 3px 10px rgba(0,0,0,0.7));
+  }
+  .poster-svg .figure .hair,
+  .poster-svg .figure .head,
+  .poster-svg .figure .neck,
+  .poster-svg .figure .torso,
+  .poster-svg .figure .arm-back{ fill:#060b13; }
+  .poster-svg .figure .arm-front{ fill:#0a1119; }
+  .poster-tag{
+    position:absolute; left:14px; right:14px; bottom:14px; z-index:2;
+    background: rgba(5,8,14,0.72);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 14px;
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .poster-tag .ptag-name{
+    font-family: 'Space Grotesk'; font-weight:700; font-size:0.9rem;
+    color: var(--green-bright); letter-spacing:0.04em;
+  }
+  .poster-tag .ptag-class{ font-size:0.7rem; color: var(--text-dim); text-align:right; }
+  .poster-lvl{
+    position:absolute; top:14px; left:14px; z-index:2;
+    background: rgba(5,8,14,0.72);
+    border:1px solid var(--border);
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size:0.7rem; font-weight:700; color: var(--amber);
+  }
 
   /* GAMEPLAY */
   .loop-grid{
@@ -557,11 +622,50 @@
     <h2 class="section-title">Todo lendário começou zerado</h2>
     <p class="section-desc">Seu personagem não nasce sabendo. Ele nasce quebrado — e é sua missão levantar essa build do zero até virar o cara (ou a cara) que todo mundo pede dica.</p>
 
-    <div class="origin-box">
-      <div class="emoji">🎮</div>
-      <div>
-        <h4>Escolha sua origem</h4>
-        <p>Perdeu uma grana feia apostando no jogo do Brasileirão. Foi mandado embora e caiu o FGTS na conta. Ganhou uma herança e trava toda vez que abre o extrato. Todo personagem começa com um trauma financeiro — e uma decisão pela frente: continuar perdido ou virar o jogo.</p>
+    <div class="character-reveal">
+      <div class="character-poster">
+        <div class="poster-glow"></div>
+        <span class="poster-lvl">Nv. 1</span>
+        <svg class="poster-svg" viewBox="0 0 400 560" xmlns="http://www.w3.org/2000/svg">
+          <g class="skyline">
+            <rect class="bldg" x="-10" y="380" width="70" height="190" />
+            <rect class="win" x="4" y="400" width="6" height="10" />
+            <rect class="win" x="20" y="418" width="6" height="10" />
+            <rect class="win" x="4" y="440" width="6" height="10" />
+            <rect class="bldg" x="55" y="320" width="55" height="250" />
+            <rect class="win" x="68" y="345" width="6" height="10" />
+            <rect class="win" x="88" y="368" width="6" height="10" />
+            <rect class="win" x="68" y="392" width="6" height="10" />
+            <rect class="win" x="88" y="416" width="6" height="10" />
+            <rect class="bldg" x="335" y="300" width="65" height="270" />
+            <rect class="win" x="350" y="330" width="6" height="10" />
+            <rect class="win" x="372" y="352" width="6" height="10" />
+            <rect class="win" x="350" y="376" width="6" height="10" />
+            <rect class="bldg" x="300" y="380" width="45" height="190" />
+            <rect class="win" x="312" y="405" width="6" height="10" />
+            <rect class="win" x="326" y="428" width="6" height="10" />
+          </g>
+          <g class="figure">
+            <path class="hair" d="M152 85 C150 40 170 20 200 20 C230 20 250 40 248 85 C240 65 160 65 152 85 Z" />
+            <ellipse class="head" cx="200" cy="100" rx="46" ry="54" />
+            <rect class="neck" x="182" y="145" width="36" height="33" />
+            <path class="torso" d="M90 560 L95 430 C98 360 100 300 112 205 C132 182 160 178 182 178 L218 178 C240 178 268 182 288 205 C300 300 302 360 305 430 L310 560 Z" />
+            <path class="arm-back" d="M108 342 L292 380 L282 402 L98 364 Z" />
+            <path class="arm-front" d="M292 336 L108 376 L118 398 L302 358 Z" />
+          </g>
+        </svg>
+        <div class="poster-tag">
+          <span class="ptag-name">VOCÊ</span>
+          <span class="ptag-class">Classe: Iniciante Ingênuo</span>
+        </div>
+      </div>
+
+      <div class="origin-box">
+        <div class="emoji">🎮</div>
+        <div>
+          <h4>Escolha sua origem</h4>
+          <p>Perdeu uma grana feia apostando no jogo do Brasileirão. Foi mandado embora e caiu o FGTS na conta. Ganhou uma herança e trava toda vez que abre o extrato. Todo personagem começa com um trauma financeiro — e uma decisão pela frente: continuar perdido ou virar o jogo.</p>
+        </div>
       </div>
     </div>
 
