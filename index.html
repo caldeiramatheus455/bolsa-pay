@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bolsa Play — O jogo que te transforma em investidor de verdade</title>
+<meta name="description" content="Bolsa Play é o RPG de progressão financeira: evolua de Iniciante Ingênuo a Gestor de Fundo jogando de verdade. Entre na waitlist e jogue primeiro.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230A0E14'/%3E%3Cpath d='M30 25 L75 50 L30 75 Z' fill='none' stroke='%2300C853' stroke-width='7' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0A0E14;
+    --bg-alt: #0D1220;
+    --surface: #121826;
+    --surface-2: #171f30;
+    --border: #232c40;
+    --green: #00C853;
+    --green-bright: #2FFF8A;
+    --green-dim: rgba(0,200,83,0.14);
+    --red: #FF4D5E;
+    --amber: #FFB020;
+    --text: #F2F5F9;
+    --text-dim: #9AA6BA;
+    --text-faint: #626E85;
+    --radius: 18px;
+    --maxw: 1120px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,h2,h3,h4, .display{
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+  }
+  a{color:inherit; text-decoration:none;}
+  img,svg{display:block; max-width:100%;}
+  .wrap{
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  section{ position: relative; padding: 96px 0; }
+  @media (max-width:640px){ section{ padding: 64px 0; } }
+
+  /* background texture */
+  body::before{
+    content:"";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(600px 400px at 85% -5%, rgba(0,200,83,0.16), transparent 60%),
+      radial-gradient(500px 350px at 10% 10%, rgba(0,200,83,0.08), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .grid-fade{
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 42px 42px;
+    -webkit-mask-image: radial-gradient(circle at 50% 0%, black, transparent 70%);
+    mask-image: radial-gradient(circle at 50% 0%, black, transparent 70%);
+    pointer-events:none;
+  }
+
+  /* NAV */
+  nav{
+    position: sticky; top:0; z-index: 50;
+    backdrop-filter: blur(10px);
+    background: rgba(10,14,20,0.75);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-top:14px; padding-bottom:14px;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:700; font-family:'Space Grotesk'; font-size:1.05rem;}
+  .brand .mark{ width:34px; height:34px; flex:none; }
+  .nav-cta{
+    background: var(--green);
+    color:#04140a;
+    font-weight:700;
+    font-size:0.85rem;
+    padding:10px 18px;
+    border-radius: 999px;
+    box-shadow: 0 0 0 1px rgba(0,200,83,0.4), 0 8px 24px -8px rgba(0,200,83,0.6);
+    white-space:nowrap;
+  }
+  .nav-cta:hover{ background: var(--green-bright); }
+
+  /* Reusable badge/pill */
+  .pill{
+    display:inline-flex; align-items:center; gap:8px;
+    background: var(--green-dim);
+    border: 1px solid rgba(0,200,83,0.35);
+    color: var(--green-bright);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 7px 14px;
+    border-radius: 999px;
+  }
+  .pill .dot{ width:7px; height:7px; border-radius:50%; background: var(--green-bright); box-shadow:0 0 8px var(--green-bright); animation: pulse 1.6s infinite; }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.35; } }
+
+  /* HERO */
+  .hero{ padding-top: 84px; position:relative; z-index:1; }
+  .hero-grid{
+    display:grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items:center;
+  }
+  @media (max-width: 900px){ .hero-grid{ grid-template-columns: 1fr; } }
+  .hero h1{
+    font-size: clamp(2.4rem, 5.2vw, 3.8rem);
+    margin: 20px 0 18px;
+  }
+  .hero h1 .accent{ color: var(--green-bright); }
+  .hero p.sub{
+    font-size: 1.15rem;
+    color: var(--text-dim);
+    max-width: 560px;
+    margin-bottom: 30px;
+  }
+  .hero p.sub b{ color: var(--text); }
+
+  .cta-row{ display:flex; flex-wrap:wrap; gap:14px; align-items:center; }
+  .btn-primary{
+    background: linear-gradient(180deg, var(--green-bright), var(--green));
+    color: #04140a;
+    font-weight: 800;
+    font-size: 1rem;
+    padding: 16px 30px;
+    border-radius: 14px;
+    border:none;
+    cursor:pointer;
+    box-shadow: 0 12px 30px -10px rgba(0,200,83,0.7);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 16px 34px -8px rgba(0,200,83,0.85); }
+  .btn-ghost{
+    color: var(--text-dim);
+    font-weight:600;
+    font-size:0.92rem;
+    display:flex; align-items:center; gap:6px;
+  }
+  .btn-ghost:hover{ color:var(--text); }
+
+  .hero-note{ margin-top:16px; font-size:0.85rem; color: var(--text-faint); }
+
+  /* Hero visual - phone-ish card with icon */
+  .hero-visual{
+    position:relative;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .icon-stage{
+    position: relative;
+    width: min(360px, 82vw);
+    aspect-ratio: 1/1;
+    border-radius: 40px;
+    background: radial-gradient(120% 120% at 30% 20%, #131b28, #0A0E14 65%);
+    border: 1px solid var(--border);
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,0.7), inset 0 0 0 1px rgba(255,255,255,0.02);
+    display:flex; align-items:center; justify-content:center;
+    animation: float 5s ease-in-out infinite;
+  }
+  @keyframes float{ 0%,100%{ transform: translateY(0px);} 50%{ transform: translateY(-14px);} }
+  .icon-stage .glow{
+    position:absolute; inset: -20%;
+    background: radial-gradient(circle, rgba(0,200,83,0.35), transparent 60%);
+    filter: blur(30px);
+    z-index:0;
+  }
+  .icon-stage svg{ position:relative; z-index:1; width: 62%; height: 62%; }
+  .float-chip{
+    position:absolute;
+    background: var(--surface-2);
+    border:1px solid var(--border);
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size:0.78rem;
+    font-weight:700;
+    display:flex; align-items:center; gap:6px;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.6);
+  }
+  .chip-lvl{ top:-6%; left:-8%; color: var(--green-bright); animation: float 4s ease-in-out infinite; }
+  .chip-xp{ bottom:6%; right:-10%; color: var(--amber); animation: float 4.5s ease-in-out infinite reverse; }
+  .chip-risk{ bottom:-6%; left:8%; color: var(--red); animation: float 5.5s ease-in-out infinite; }
+
+  /* Section headers */
+  .eyebrow{
+    color: var(--green-bright);
+    font-weight:700;
+    font-size:0.82rem;
+    letter-spacing:0.08em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display:block;
+  }
+  .section-title{
+    font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+    max-width: 720px;
+    margin-bottom: 16px;
+  }
+  .section-desc{
+    color: var(--text-dim);
+    max-width: 620px;
+    font-size: 1.05rem;
+    margin-bottom: 48px;
+  }
+
+  /* NARRATIVE */
+  .arc-track{
+    position: relative;
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 860px){ .arc-track{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px){ .arc-track{ grid-template-columns: 1fr; } }
+  .arc-line{
+    position:absolute; top:34px; left:5%; right:5%; height:2px;
+    background: repeating-linear-gradient(90deg, var(--border) 0 10px, transparent 10px 16px);
+    z-index:0;
+  }
+  @media (max-width: 860px){ .arc-line{ display:none; } }
+  .arc-card{
+    position:relative; z-index:1;
+    background: var(--surface);
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px 20px;
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .arc-card:hover{ border-color: rgba(0,200,83,0.5); transform: translateY(-4px); }
+  .arc-num{
+    width:44px; height:44px; border-radius:12px;
+    background: var(--surface-2);
+    border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Space Grotesk'; font-weight:700; font-size:1.2rem;
+    color: var(--green-bright);
+    margin-bottom:16px;
+  }
+  .arc-card h3{ font-size:1.08rem; margin-bottom:8px; }
+  .arc-card p{ color: var(--text-dim); font-size:0.92rem; }
+  .arc-card .tag{
+    display:inline-block; margin-top:12px;
+    font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;
+    color: var(--text-faint);
+  }
+
+  .origin-box{
+    margin-top: 40px;
+    background: linear-gradient(135deg, rgba(0,200,83,0.08), transparent 60%), var(--surface);
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 30px 28px;
+    display:flex; gap:20px; align-items:flex-start;
+  }
+  @media (max-width:640px){ .origin-box{ flex-direction:column; } }
+  .origin-box .emoji{ font-size:2.2rem; line-height:1; }
+  .origin-box h4{ font-family:'Space Grotesk'; font-size:1.1rem; margin-bottom:8px; }
+  .origin-box p{ color: var(--text-dim); }
+
+  /* GAMEPLAY */
+  .loop-grid{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  @media (max-width: 860px){ .loop-grid{ grid-template-columns: 1fr; } }
+  .loop-card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+  }
+  .loop-card .icon{
+    width:46px; height:46px; border-radius:12px;
+    background: var(--green-dim);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:18px; font-size:1.4rem;
+  }
+  .loop-card h3{ font-size:1.1rem; margin-bottom:10px; }
+  .loop-card p{ color:var(--text-dim); font-size:0.94rem; }
+
+  .items-row{
+    margin-top: 40px;
+    display:grid; grid-template-columns: repeat(6, 1fr); gap: 12px;
+  }
+  @media (max-width: 900px){ .items-row{ grid-template-columns: repeat(3,1fr); } }
+  @media (max-width: 520px){ .items-row{ grid-template-columns: repeat(2,1fr); } }
+  .item-card{
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 12px;
+    text-align:center;
+    font-size:0.82rem;
+    font-weight:700;
+  }
+  .item-card .lvl{
+    display:block; font-size:0.68rem; color: var(--text-faint); font-weight:600; margin-top:6px; text-transform:uppercase; letter-spacing:0.04em;
+  }
+  .item-card.risk-low{ box-shadow: inset 0 0 0 1px rgba(0,200,83,0.35); }
+  .item-card.risk-mid{ box-shadow: inset 0 0 0 1px rgba(255,176,32,0.35); }
+  .item-card.risk-high{ box-shadow: inset 0 0 0 1px rgba(255,77,94,0.4); }
+
+  .snowball{
+    margin-top: 48px;
+    background: var(--surface);
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    display:grid; grid-template-columns: 1fr 1fr; gap:32px; align-items:center;
+  }
+  @media (max-width:780px){ .snowball{ grid-template-columns:1fr; } }
+  .snowball h4{ font-size:1.2rem; margin-bottom:10px; }
+  .snowball p{ color:var(--text-dim); }
+  .snow-visual{
+    display:flex; align-items:flex-end; gap:10px; height:140px; justify-content:center;
+  }
+  .snow-bar{
+    width: 34px;
+    background: linear-gradient(180deg, var(--green-bright), var(--green));
+    border-radius: 8px 8px 0 0;
+    box-shadow: 0 0 20px -4px rgba(0,200,83,0.6);
+  }
+
+  /* TENSION ELEMENTS */
+  .tension-grid{
+    display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px;
+  }
+  @media (max-width: 900px){ .tension-grid{ grid-template-columns: 1fr; } }
+  .event-list{ display:flex; flex-direction:column; gap:14px; }
+  .event-card{
+    background: var(--surface);
+    border:1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+    display:flex; gap:14px; align-items:flex-start;
+  }
+  .event-card .badge{
+    flex:none;
+    width:38px; height:38px;
+    border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.1rem;
+    background: rgba(255,77,94,0.12);
+  }
+  .event-card h4{ font-size:0.98rem; margin-bottom:4px; }
+  .event-card p{ color:var(--text-dim); font-size:0.88rem; }
+
+  .stat-panel{
+    background: var(--surface);
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px 24px;
+  }
+  .stat-panel h3{ font-size:1.1rem; margin-bottom:18px; }
+  .stat-bar-row{ margin-bottom: 18px; }
+  .stat-bar-row:last-child{ margin-bottom:0; }
+  .stat-bar-label{
+    display:flex; justify-content:space-between; font-size:0.85rem; font-weight:700; margin-bottom:8px;
+  }
+  .stat-bar-bg{ height:10px; border-radius:999px; background: var(--surface-2); overflow:hidden; }
+  .stat-bar-fill{ height:100%; border-radius:999px; }
+  .fill-fear{ width:72%; background: linear-gradient(90deg, #4b6bff, #7c9dff); }
+  .fill-greed{ width:58%; background: linear-gradient(90deg, var(--amber), #ffd166); }
+  .fill-fomo{ width:85%; background: linear-gradient(90deg, var(--red), #ff8a95); }
+
+  .npc-row{
+    margin-top: 40px;
+    display:grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  @media (max-width:700px){ .npc-row{ grid-template-columns:1fr; } }
+  .npc-card{
+    background: var(--surface);
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    display:flex; gap:16px;
+  }
+  .npc-avatar{
+    flex:none;
+    width:52px; height:52px; border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.5rem;
+    background: var(--surface-2);
+    border:1px solid var(--border);
+  }
+  .npc-card h4{ font-size:1rem; margin-bottom:4px; }
+  .npc-card .role{ font-size:0.75rem; color:var(--green-bright); font-weight:700; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:8px; display:block;}
+  .npc-card p{ color:var(--text-dim); font-size:0.9rem; font-style:italic; }
+
+  /* SOCIAL PROOF */
+  .proof-box{
+    text-align:center;
+    background: linear-gradient(180deg, rgba(0,200,83,0.08), transparent);
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 56px 24px;
+  }
+  .proof-count{
+    font-family:'Space Grotesk';
+    font-weight:700;
+    font-size: clamp(2.6rem, 7vw, 4.2rem);
+    color: var(--green-bright);
+    letter-spacing:-0.02em;
+  }
+  .proof-box p.lead{ color: var(--text-dim); margin-top:10px; font-size:1.05rem; }
+  .scarcity-row{
+    margin-top:28px; display:flex; justify-content:center; gap:14px; flex-wrap:wrap;
+  }
+  .scarcity-chip{
+    background: var(--surface-2); border:1px solid var(--border);
+    border-radius:999px; padding:8px 16px; font-size:0.82rem; font-weight:600; color: var(--text-dim);
+  }
+  .avatars{
+    display:flex; justify-content:center; margin-bottom:18px;
+  }
+  .avatars span{
+    width:38px; height:38px; border-radius:50%;
+    background: var(--surface-2); border:2px solid var(--bg);
+    margin-left:-10px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1rem;
+  }
+  .avatars span:first-child{ margin-left:0; }
+
+  /* FINAL CTA */
+  .final-cta{
+    text-align:center;
+  }
+  .final-cta h2{
+    font-size: clamp(2rem, 4.5vw, 3.1rem);
+    max-width: 720px;
+    margin: 0 auto 16px;
+  }
+  .final-cta p{ color: var(--text-dim); max-width:520px; margin: 0 auto 36px; font-size:1.05rem; }
+
+  form.waitlist-form{
+    display:flex; gap:10px; max-width: 480px; margin: 0 auto;
+    flex-wrap:wrap; justify-content:center;
+  }
+  .waitlist-form input[type=email]{
+    flex:1; min-width:220px;
+    background: var(--surface);
+    border:1px solid var(--border);
+    color: var(--text);
+    padding: 16px 18px;
+    border-radius: 14px;
+    font-size:1rem;
+    outline:none;
+  }
+  .waitlist-form input[type=email]:focus{ border-color: var(--green); }
+  .waitlist-form input[type=email]::placeholder{ color: var(--text-faint); }
+  .waitlist-form button{
+    background: linear-gradient(180deg, var(--green-bright), var(--green));
+    color:#04140a;
+    font-weight:800;
+    font-size:1rem;
+    padding: 16px 26px;
+    border:none;
+    border-radius:14px;
+    cursor:pointer;
+    box-shadow: 0 12px 30px -10px rgba(0,200,83,0.7);
+    white-space:nowrap;
+  }
+  .waitlist-form button:hover{ transform: translateY(-1px); }
+  .form-msg{ margin-top:16px; font-size:0.9rem; color: var(--green-bright); font-weight:600; min-height:1.2em; }
+  .form-note{ margin-top: 10px; font-size:0.8rem; color: var(--text-faint); }
+
+  footer{
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    text-align:center;
+    color: var(--text-faint);
+    font-size:0.85rem;
+  }
+  footer .brand{ justify-content:center; margin-bottom:10px; color: var(--text-dim); }
+
+  ::selection{ background: var(--green); color:#04140a; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="100" rx="22" fill="#0A0E14"/>
+        <path d="M32 22 C24 24 22 30 22 36 L22 64 C22 72 26 78 34 78 C38 78 42 76 46 73 L74 53 C78 50 78 46 74 43 L46 25 C42 22 36 21 32 22 Z" fill="none" stroke="#00C853" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+        <rect x="30" y="52" width="7" height="20" rx="2" fill="#00C853"/>
+        <rect x="33" y="46" width="1.6" height="32" fill="#00C853"/>
+        <rect x="43" y="42" width="7" height="26" rx="2" fill="#00C853"/>
+        <rect x="46.5" y="36" width="1.6" height="38" fill="#00C853"/>
+        <rect x="56" y="34" width="7" height="30" rx="2" fill="#00C853"/>
+        <rect x="59.5" y="28" width="1.6" height="42" fill="#00C853"/>
+      </svg>
+      Bolsa Play
+    </div>
+    <a href="#waitlist" class="nav-cta">Entrar na waitlist</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="grid-fade"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="pill"><span class="dot"></span> Acesso antecipado abrindo em breve</span>
+      <h1>De <span class="accent">"não faço a mínima ideia"</span> a investidor de referência. Jogando.</h1>
+      <p class="sub">
+        <b>Bolsa Play</b> é um jogo de verdade — RPG de progressão financeira com personagem, nível, mercado vivo e eventos que ferram (ou salvam) seu save. Nada de aula disfarçada de app. É gameplay, é adrenalina, é sua carreira de investidor lendário começando do zero.
+      </p>
+      <div class="cta-row">
+        <button class="btn-primary" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Quero jogar primeiro →</button>
+        <a href="#gameplay" class="btn-ghost">Ver como funciona ↓</a>
+      </div>
+      <p class="hero-note">Sem spam, sem "aula grátis". Só um aviso quando o servidor abrir pra você.</p>
+    </div>
+    <div class="hero-visual">
+      <div class="icon-stage">
+        <div class="glow"></div>
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 22 C24 24 22 30 22 36 L22 64 C22 72 26 78 34 78 C38 78 42 76 46 73 L74 53 C78 50 78 46 74 43 L46 25 C42 22 36 21 32 22 Z" fill="none" stroke="#00C853" stroke-width="6.5" stroke-linejoin="round" stroke-linecap="round"/>
+          <rect x="30" y="52" width="7" height="20" rx="2" fill="#00C853"/>
+          <rect x="33" y="46" width="1.6" height="32" fill="#00C853"/>
+          <rect x="43" y="42" width="7" height="26" rx="2" fill="#00C853"/>
+          <rect x="46.5" y="36" width="1.6" height="38" fill="#00C853"/>
+          <rect x="56" y="34" width="7" height="30" rx="2" fill="#00C853"/>
+          <rect x="59.5" y="28" width="1.6" height="42" fill="#00C853"/>
+        </svg>
+        <div class="float-chip chip-lvl">⭐ Nível 12</div>
+        <div class="float-chip chip-xp">+240 XP</div>
+        <div class="float-chip chip-risk">⚠ Alto risco</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NARRATIVA -->
+<section id="narrativa">
+  <div class="wrap">
+    <span class="eyebrow">O gancho</span>
+    <h2 class="section-title">Todo lendário começou zerado</h2>
+    <p class="section-desc">Seu personagem não nasce sabendo. Ele nasce quebrado — e é sua missão levantar essa build do zero até virar o cara (ou a cara) que todo mundo pede dica.</p>
+
+    <div class="origin-box">
+      <div class="emoji">🎮</div>
+      <div>
+        <h4>Escolha sua origem</h4>
+        <p>Perdeu uma grana feia apostando no jogo do Brasileirão. Foi mandado embora e caiu o FGTS na conta. Ganhou uma herança e trava toda vez que abre o extrato. Todo personagem começa com um trauma financeiro — e uma decisão pela frente: continuar perdido ou virar o jogo.</p>
+      </div>
+    </div>
+
+    <div class="arc-track" style="margin-top:48px;">
+      <div class="arc-line"></div>
+      <div class="arc-card">
+        <div class="arc-num">01</div>
+        <h3>Iniciante Ingênuo</h3>
+        <p>Não sabe a diferença entre CDB e boato de grupo de WhatsApp. Toma perrengue, aprende na marra, sobrevive.</p>
+        <span class="tag">Arco 1</span>
+      </div>
+      <div class="arc-card">
+        <div class="arc-num">02</div>
+        <h3>Investidor Amador</h3>
+        <p>Já entende o tabuleiro, mas ainda erra feio quando bate o pânico. Primeira grana de verdade, primeiro ego inflado.</p>
+        <span class="tag">Arco 2</span>
+      </div>
+      <div class="arc-card">
+        <div class="arc-num">03</div>
+        <h3>Trader Avançado</h3>
+        <p>Já lê o mercado como quem lê o mapa da fase. Assume risco calculado e começa a bater de frente com o Rival.</p>
+        <span class="tag">Arco 3</span>
+      </div>
+      <div class="arc-card">
+        <div class="arc-num">04</div>
+        <h3>Gestor de Fundo</h3>
+        <p>Chegou no fim de game: gerencia patrimônio de verdade, tem reputação e vira o mentor de quem tá começando.</p>
+        <span class="tag">Arco 4 · Final boss você</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GAMEPLAY -->
+<section id="gameplay" style="background: var(--bg-alt);">
+  <div class="wrap">
+    <span class="eyebrow">Gameplay em destaque</span>
+    <h2 class="section-title">O loop que vicia (no bom sentido)</h2>
+    <p class="section-desc">Mercado vivo, decisões reais, consequência na hora. Você não lê sobre investir — você joga investindo.</p>
+
+    <div class="loop-grid">
+      <div class="loop-card">
+        <div class="icon">📈</div>
+        <h3>Mercado simulado em tempo real</h3>
+        <p>Preços se movem por turno ou ao vivo, com ciclos de alta, correção e pânico. O tabuleiro muda mesmo se você não fizer nada — igual à vida real.</p>
+      </div>
+      <div class="loop-card">
+        <div class="icon">🎒</div>
+        <h3>Produtos como itens de inventário</h3>
+        <p>CDB, Tesouro, ações, FIIs, cripto e derivativos são "itens" com raridade, risco e retorno visual — e você só destrava os mais fortes subindo de nível.</p>
+      </div>
+      <div class="loop-card">
+        <div class="icon">❄️</div>
+        <h3>Efeito bola de neve</h3>
+        <p>Juros compostos viram mecânica visual: sua bola de patrimônio cresce na tela conforme o tempo passa. Sem planilha, sem número solto — só a sensação de ficar gigante.</p>
+      </div>
+    </div>
+
+    <div class="items-row">
+      <div class="item-card risk-low">🏦 CDB<span class="lvl">Nv. 1</span></div>
+      <div class="item-card risk-low">🛡️ Tesouro<span class="lvl">Nv. 1</span></div>
+      <div class="item-card risk-mid">📊 Ações<span class="lvl">Nv. 5</span></div>
+      <div class="item-card risk-mid">🏢 FIIs<span class="lvl">Nv. 7</span></div>
+      <div class="item-card risk-high">🪙 Cripto<span class="lvl">Nv. 12</span></div>
+      <div class="item-card risk-high">⚡ Derivativos<span class="lvl">Nv. 20</span></div>
+    </div>
+
+    <div class="snowball">
+      <div>
+        <h4>❄️ Sua bola de neve, crescendo na tela</h4>
+        <p>Cada aporte engorda a bola. Cada ciclo que passa, ela rola mais rápido. Você não precisa entender a fórmula de juros compostos — você vê ela acontecer.</p>
+      </div>
+      <div class="snow-visual">
+        <div class="snow-bar" style="height:22%"></div>
+        <div class="snow-bar" style="height:38%"></div>
+        <div class="snow-bar" style="height:58%"></div>
+        <div class="snow-bar" style="height:82%"></div>
+        <div class="snow-bar" style="height:100%"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TENSÃO / DIVERSÃO -->
+<section id="tensao">
+  <div class="wrap">
+    <span class="eyebrow">Elementos de jogo</span>
+    <h2 class="section-title">Errar aqui dói de verdade (no bom sentido)</h2>
+    <p class="section-desc">Não é só o número que cai. É seu personagem que treme, seu rival que ri e o mentor que manda aquele áudio de "eu avisei".</p>
+
+    <div class="tension-grid">
+      <div class="event-list">
+        <div class="event-card">
+          <div class="badge">🔥</div>
+          <div>
+            <h4>Crise chegando sem avisar</h4>
+            <p>O tabuleiro vira do avesso: mercado despenca, seus itens perdem valor e você precisa decidir rápido — vender no pânico ou segurar a barra.</p>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="badge">⚔️</div>
+          <div>
+            <h4>Guerra comercial entre dois países aleatórios</h4>
+            <p>Suas cripto e ações internacionais tremem junto. O evento muda a meta do jogo por um tempo — se adapta ou fica pra trás.</p>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="badge">📉</div>
+          <div>
+            <h4>Selic dispara do nada</h4>
+            <p>Renda fixa vira o item mais cobiçado da run e suas ações penam. O jogo te obriga a repensar toda a build de investimentos.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-panel">
+        <h3>Status do personagem</h3>
+        <div class="stat-bar-row">
+          <div class="stat-bar-label"><span>😨 Medo</span><span>72%</span></div>
+          <div class="stat-bar-bg"><div class="stat-bar-fill fill-fear"></div></div>
+        </div>
+        <div class="stat-bar-row">
+          <div class="stat-bar-label"><span>🤑 Ganância</span><span>58%</span></div>
+          <div class="stat-bar-bg"><div class="stat-bar-fill fill-greed"></div></div>
+        </div>
+        <div class="stat-bar-row">
+          <div class="stat-bar-label"><span>🚀 FOMO</span><span>85%</span></div>
+          <div class="stat-bar-bg"><div class="stat-bar-fill fill-fomo"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="npc-row">
+      <div class="npc-card">
+        <div class="npc-avatar">🧙</div>
+        <div>
+          <span class="role">Mentor</span>
+          <h4>Seu Ivo, o mentor cansado</h4>
+          <p>"Rapaz, você comprou no topo de novo? Eu já tô até com pena de mandar áudio."</p>
+        </div>
+      </div>
+      <div class="npc-card">
+        <div class="npc-avatar">😏</div>
+        <div>
+          <span class="role">Rival</span>
+          <h4>Bianca, a rival implicante</h4>
+          <p>"Enquanto você tremia de medo, eu já triplicava a posição. Mas relaxa, um dia você chega lá... talvez."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROVA SOCIAL -->
+<section id="proof" style="background: var(--bg-alt);">
+  <div class="wrap">
+    <div class="proof-box">
+      <div class="avatars">
+        <span>🎮</span><span>💰</span><span>🚀</span><span>🧠</span><span>🔥</span>
+      </div>
+      <div class="proof-count" id="waitlistCount">3.482</div>
+      <p class="lead">jogadores já garantiram vaga na fila de acesso antecipado</p>
+      <div class="scarcity-row">
+        <span class="scarcity-chip">⏳ Beta fechado com vagas limitadas</span>
+        <span class="scarcity-chip">🥇 Quem entra antes escolhe origem exclusiva</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="waitlist" class="final-cta">
+  <div class="wrap">
+    <span class="eyebrow" style="display:block; text-align:center;">Bora começar sua run</span>
+    <h2>Sua carreira de investidor lendário tá esperando o primeiro turno.</h2>
+    <p>Entra na waitlist agora e seja avisado assim que as portas do servidor abrirem. Sem enrolação, sem curso escondido — só o jogo.</p>
+
+    <form class="waitlist-form" id="waitlistForm">
+      <input type="email" id="emailInput" placeholder="seuemail@exemplo.com" required>
+      <button type="submit">Entrar na waitlist</button>
+    </form>
+    <div class="form-msg" id="formMsg"></div>
+    <p class="form-note">Zero spam. Só um aviso quando for sua vez de jogar.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+        <rect width="100" height="100" rx="22" fill="#0A0E14"/>
+        <path d="M32 22 C24 24 22 30 22 36 L22 64 C22 72 26 78 34 78 C38 78 42 76 46 73 L74 53 C78 50 78 46 74 43 L46 25 C42 22 36 21 32 22 Z" fill="none" stroke="#00C853" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+      </svg>
+      Bolsa Play
+    </div>
+    <p>© 2026 Bolsa Play. Jogo de simulação de investimentos. Sem garantia de rentabilidade — na vida real ou no jogo.</p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var base = 3482;
+    var stored = 0;
+    try { stored = parseInt(localStorage.getItem('bp_waitlist_extra') || '0', 10) || 0; } catch(e){}
+    var countEl = document.getElementById('waitlistCount');
+    function render(n){ countEl.textContent = n.toLocaleString('pt-BR'); }
+    render(base + stored);
+
+    var form = document.getElementById('waitlistForm');
+    var msg = document.getElementById('formMsg');
+    var emailInput = document.getElementById('emailInput');
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var email = emailInput.value.trim();
+      if(!email) return;
+
+      var already = false;
+      try {
+        var saved = JSON.parse(localStorage.getItem('bp_waitlist_emails') || '[]');
+        already = saved.indexOf(email) !== -1;
+        if(!already){
+          saved.push(email);
+          localStorage.setItem('bp_waitlist_emails', JSON.stringify(saved));
+          stored += 1;
+          localStorage.setItem('bp_waitlist_extra', String(stored));
+        }
+      } catch(err){}
+
+      render(base + stored);
+
+      if(already){
+        msg.textContent = 'Você já tá na fila! Relaxa, seu save foi salvo. 🎮';
+      } else {
+        msg.textContent = 'Boa! Você entrou na waitlist. Prepara o polegar. 🚀';
+        form.reset();
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
